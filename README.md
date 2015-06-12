@@ -38,10 +38,9 @@ Q & A
      ASCII files, and uses a command line interface for input. If you want to run this code
      on an ancient computer with nothing by Fortran installed, then `gsm.f` is the way to go. 
      In contrast, `PyGSM` is a Python code that leverages a lot of other Packages so that you 
-     can do more stuff more efficiently. For example, you can view the GSM you generate in a healpy 
-     image, you can write the GSM you generate to a Healpix FITS file, and believe it or not the 
-     Python implementation is *much faster*, presumably as it's not continually serializing and 
-     deserializing to ASCII.
+     can do more stuff more efficiently. For example: you can view a sky model in a healpy 
+     image; you can write a sky model to a Healpix FITS file; and believe it or not, the 
+     Python implementation is *much faster*.
 
 **Q. Are the outputs of `gsm.f` and `pygsm` identical?** At the moment: **no**. The cubic
      spline interpolation implementation differs, so values will differ by as much as 
