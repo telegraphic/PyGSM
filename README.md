@@ -25,10 +25,44 @@ Then clone the directory
 
         git clone https://github.com/telegraphic/PyGSM
 
-and run any scripts or iPython sessions from there (installation via `setup.py` is on the todo list).
+You may then install this by running `python setup.py install`.
 
 To get a quick feel of what `PyGSM` does, have a look at the 
-[quickstart guide](http://nbviewer.ipython.org/github/telegraphic/PyGSM/blob/master/pygsm_quickstart.ipynb).
+[quickstart guide](http://nbviewer.ipython.org/github/telegraphic/PyGSM/blob/master/docs/pygsm_quickstart.ipynb).
+
+Q & A
+-----
+
+**Q. What's the difference between this and the `gsm.f` from the main GSM website?**
+     The `gsm.f` is a very basic Fortran code, which reads and writes values to and from
+     ASCII files, and uses a command line interface for input. If you want to run this code
+     on an ancient computer with nothing by Fortran installed, then `gsm.f` is the way to go. 
+     In contrast, `PyGSM` is a Python code that leverages a lot of other Packages so that you 
+     can do more stuff more efficiently. For example, you can view the GSM you generate in a healpy 
+     image, you can write the GSM you generate to a Healpix FITS file, and believe it or not the 
+     Python implementation is *much faster*, presumably as it's not continually serializing and 
+     deserializing to ASCII.
+
+**Q. Are the outputs of `gsm.f` and `pygsm` identical?** At the moment: **no**. The cubic
+     spline interpolation implementation differs, so values will differ by as much as 
+     a few percent. The interpolation code used in `gsm.f` does not have an open-source
+     license (it's from [Numerical Recipes](http://www.nr.com/licenses/) ), so we haven't 
+     implemented it (one could probably come up with an equivalent that didn't infringe).
+     Nevertheless, the underlying PCA data are identical, and I've run tests to check that
+     they are 'similar enough'.
+
+**Q. Why is this package so large (~150 MB)?**
+     The package size is dominated by the PCA healpix maps, which have about 3 million points each.
+     They're compressed using HDF5 LZF, so are actually about 3x smaller than the `*.dat`
+     files that come in the original `gsm.tar.gz` file. The next biggest thing is test data,
+     so that the output can be compared against precomputed output from `gsm.f`.
+
+**Q. Why do I need h5py?**
+     `h5py` is required to read the PCA data, which are stored in a HDF5 file. Reading from
+     HDF5 into Python is incredibly efficient, and the compression is transparent to the end user.
+     This means that you can't eyeball the data using `vim` or `less` or a text editor, but if
+     you're trying to do that on a file with millions of data points you're doing science wrong anyway.
+   
 
 References
 ----------
