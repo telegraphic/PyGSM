@@ -1,7 +1,7 @@
 PyGSM
 =====
 
-`PyGSM` is a Python interface for the Global Sky Model (GSM) or Oliveira-Costa et. al. (2008)
+`PyGSM` is a Python interface for the Global Sky Model (GSM) of [Oliveira-Costa et. al., (2008)](http://onlinelibrary.wiley.com/doi/10.1111/j.1365-2966.2008.13376.x/abstract).
 The GSM generates all-sky maps in Healpix format of diffuse Galactic radio emission
 from 10 MHz to 94 GHz.
 
@@ -40,7 +40,9 @@ Q & A
      In contrast, `PyGSM` is a Python code that leverages a lot of other Packages so that you 
      can do more stuff more efficiently. For example: you can view a sky model in a healpy 
      image; you can write a sky model to a Healpix FITS file; and believe it or not, the 
-     Python implementation is *much faster*.
+     Python implementation is *much faster*. Have a look at the 
+     [quickstart guide](http://nbviewer.ipython.org/github/telegraphic/PyGSM/blob/master/docs/pygsm_quickstart.ipynb)
+     to get a feel for what `PyGSM` does.
 
 **Q. Are the outputs of `gsm.f` and `pygsm` identical?** At the moment: **no**. The cubic
      spline interpolation implementation differs, so values will differ by as much as 
@@ -48,7 +50,7 @@ Q & A
      license (it's from [Numerical Recipes](http://www.nr.com/licenses/) ), so we haven't 
      implemented it (one could probably come up with an equivalent that didn't infringe).
      Nevertheless, the underlying PCA data are identical, and I've run tests to check that
-     they are 'similar enough'.
+     the two outputs are indeed comparable. 
 
 **Q. Why is this package so large (~150 MB)?**
      The package size is dominated by the PCA healpix maps, which have about 3 million points each.
