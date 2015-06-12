@@ -6,10 +6,14 @@ Tests for GSM module.
 """
 
 import os
-from pygsm import *
+from pygsm import GlobalSkyModel
+
 import pylab as plt
 import time
 from astropy.io import fits as pf
+import numpy as np
+import h5py
+import healpy as hp
 
 def test_gsm_generate():
     """ Test maps generate successfully, and that output shapes are correct. """
@@ -50,7 +54,7 @@ def compare_to_gsm():
     Note: Because each output
     """
     gsm = GlobalSkyModel(basemap='haslam', interpolation='cubic')
-    gsm_fortran = h5py.File('gsm_data/gsm_fortran_test_data.h5')
+    gsm_fortran = h5py.File('gsm_fortran_test_data.h5')
     for freq in (10, 100, 408, 1000, 1420, 2326, 10000, 23000, 40000, 90000, 94000):
         print("\nComparing at %i MHz..." % freq)
         a = gsm_fortran['map_%imhz.out' % freq][:]

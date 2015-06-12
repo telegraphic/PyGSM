@@ -26,7 +26,9 @@ from astropy import units
 import healpy as hp
 import pylab as plt
 
-GSM_FILEPATH = "gsm_data/gsm_components.h5"
+from pkg_resources import resource_filename
+
+GSM_FILEPATH = resource_filename("pygsm", "gsm_components.h5")
 
 class GlobalSkyModel(object):
     """ Global sky model (GSM) class for generating sky models.
