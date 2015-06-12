@@ -8,9 +8,7 @@ Tests for GSM module.
 import os
 from pygsm import GlobalSkyModel
 
-import pylab as plt
 import time
-from astropy.io import fits as pf
 import numpy as np
 import h5py
 import healpy as hp
