@@ -1,14 +1,34 @@
 PyGSM
 =====
 
-PyGSM is aPython interface for the Global Sky Model (GSM) or Oliveira-Costa et. al. (2008)
+`PyGSM` is a Python interface for the Global Sky Model (GSM) or Oliveira-Costa et. al. (2008)
 The GSM generates all-sky maps in Healpix format of diffuse Galactic radio emission
 from 10 MHz to 94 GHz.
 
 This is *not* a wrapper of the original Fortran code, it is a python-based equivalent
-that has some additional features and advantages.
+that has some additional features and advantages, such as healpy integration for imaging.
 Instead of the original ASCII DAT files that contain the principal component analysis
-(PCA), data are stored in HDF5, which is more efficient.
+(PCA), data are stored in HDF5, which can be quickly read into memory, and takes up less space to boot.
+
+Quickstart
+----------
+
+The first thing to do will be to make sure you've got the dependencies: 
+
+* [numpy](http://www.numpy.org/)
+* [scipy](http://www.scipy.org/install.html)
+* [healpy](http://healpy.readthedocs.org/en/latest/)
+* [h5py](http://www.h5py.org/)
+* [astropy](http://www.astropy.org/)
+
+Then clone the directory
+
+        git clone https://github.com/telegraphic/PyGSM
+
+and run any scripts or iPython sessions from there (installation via `setup.py` is on the todo list).
+
+To get a quick feel of what `PyGSM` does, have a look at the 
+[quickstart guide](http://nbviewer.ipython.org/github/telegraphic/PyGSM/blob/master/pygsm_quickstart.ipynb).
 
 References
 ----------
