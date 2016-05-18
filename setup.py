@@ -88,7 +88,7 @@ setup(
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
     package_data={
-        'pygsm': ['gsm_components.h5'],
+        'pygsm': ['gsm_components.h5', 'gsm2016_components.h5'],
     },
 
     # Although 'package_data' is the preferred approach, in some case you may
