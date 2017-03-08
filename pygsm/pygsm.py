@@ -46,7 +46,7 @@ class GlobalSkyModel(object):
         ----------
         freq_unit: 'Hz', 'MHz', or 'GHz'
             Unit of frequency. Defaults to 'MHz'.
-        gsm_version: 'haslam', 'wmap' or '5deg'
+        basemap: 'haslam', 'wmap' or '5deg'
             GSM version to generate. The 5deg map has 5.1 degree resolution.
             This is a synthesized map made of all the maps considered in
             the de Oliveira-Costa et. al. paper
