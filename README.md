@@ -103,3 +103,7 @@ An Improved Model of Diffuse Galactic Radio Emission from 10 MHz to 5 THz
 
 which is available on the [arXiv](http://arxiv.org/abs/1605.04920).
 
+License
+-------
+
+All *code* in PyGSM is licensed under the MIT license (not the underlying *data*). The PCA data, by Zheng et. al. is licensed under MIT also (see https://github.com/jeffzhen/gsm2016).
