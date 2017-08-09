@@ -93,7 +93,7 @@ class GlobalSkyModel2016(object):
             is in galactic coordinates, ring format.
 
         """
-
+        
         # convert frequency values into Hz
         freqs = np.array(freqs) * units.Unit(self.freq_unit)
         freqs_ghz = freqs.to('GHz').value
@@ -115,7 +115,7 @@ class GlobalSkyModel2016(object):
         spec_nf = self.spec_nf
         nfreq = spec_nf.shape[1]
 
-        output = []
+        output = np.zeros((len(freqs_ghz), map_ni.shape[1]), dtype='float32')
         for freq in freqs_ghz:
 
             left_index = -1
@@ -133,9 +133,9 @@ class GlobalSkyModel2016(object):
             y2 = interp_spec_nf[1:, left_index + 1]
             x = np.log10(freq)
             interpolated_vals = (x * (y2 - y1) + x2 * y1 - x1 * y2) / (x2 - x1)
-            result = np.sum(10.**interpolated_vals[0] * (interpolated_vals[1:, None] * map_ni), axis=0)
+            output[i] = np.sum(10.**interpolated_vals[0] * (interpolated_vals[1:, None] * map_ni), axis=0)
 
-            result = hp.pixelfunc.reorder(result, n2r=True)
+            output[i] = hp.pixelfunc.reorder(output[i], n2r=True)
 
             if self.unit == 'TCMB':
                 conversion = 1. / K_CMB2MJysr(1., 1e9 * freq)
@@ -143,19 +143,19 @@ class GlobalSkyModel2016(object):
                 conversion = 1. / K_RJ2MJysr(1., 1e9 * freq)
             else:
                 conversion = 1.
-            result *= conversion
+            output[i] *= conversion
 
-            output.append(result)
+#            output.append(result)
 
         if len(output) == 1:
-            map_data = output[0]
-        else:
-            map_data = np.row_stack(output)
+            output = output[0]
+        #else:
+        #    map_data = np.row_stack(output)
 
         self.generated_map_freqs = freqs
-        self.generated_map_data = map_data
+        self.generated_map_data = output
 
-        return map_data
+        return output
 
 
     def view(self, idx=0, logged=False):
