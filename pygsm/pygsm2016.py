@@ -116,7 +116,7 @@ class GlobalSkyModel2016(object):
         nfreq = spec_nf.shape[1]
 
         output = np.zeros((len(freqs_ghz), map_ni.shape[1]), dtype='float32')
-        for freq in freqs_ghz:
+        for ifreq, freq in enumerate(freqs_ghz):
 
             left_index = -1
             for i in range(nfreq - 1):
@@ -133,9 +133,9 @@ class GlobalSkyModel2016(object):
             y2 = interp_spec_nf[1:, left_index + 1]
             x = np.log10(freq)
             interpolated_vals = (x * (y2 - y1) + x2 * y1 - x1 * y2) / (x2 - x1)
-            output[i] = np.sum(10.**interpolated_vals[0] * (interpolated_vals[1:, None] * map_ni), axis=0)
+            output[ifreq] = np.sum(10.**interpolated_vals[0] * (interpolated_vals[1:, None] * map_ni), axis=0)
 
-            output[i] = hp.pixelfunc.reorder(output[i], n2r=True)
+            output[ifreq] = hp.pixelfunc.reorder(output[ifreq], n2r=True)
 
             if self.unit == 'TCMB':
                 conversion = 1. / K_CMB2MJysr(1., 1e9 * freq)
@@ -143,7 +143,7 @@ class GlobalSkyModel2016(object):
                 conversion = 1. / K_RJ2MJysr(1., 1e9 * freq)
             else:
                 conversion = 1.
-            output[i] *= conversion
+            output[ifreq] *= conversion
 
 #            output.append(result)
 
