@@ -28,11 +28,29 @@ def K_RJ2MJysr(K_RJ, nu):#in Kelvin and Hz
     return  K_RJ * conversion_factor * 1e20#1e-26 for Jy and 1e6 for MJy
 
 
+def rotate_map(hmap, rot_theta, rot_phi, nest=True):
+    nside = hp.npix2nside(len(hmap))
+
+    # Get theta, phi for non-rotated map
+    t, p = hp.pix2ang(nside, np.arange(hp.nside2npix(nside)), nest= nest)  # theta, phi
+
+    # Define a rotator
+    r = hp.Rotator(deg=False, rot=[rot_phi, rot_theta])
+
+    # Get theta, phi under rotated co-ordinates
+    trot, prot = r(t, p)
+
+    # Inerpolate map onto these co-ordinates
+    rot_map = hp.get_interp_val(hmap, trot, prot, nest= nest)
+
+    return rot_map
+
+
 class GlobalSkyModel2016(object):
     """ Global sky model (GSM) class for generating sky models.
     """
 
-    def __init__(self, freq_unit='MHz', unit='TCMB', resolution='hi'):
+    def __init__(self, freq_unit='MHz', unit='TCMB', resolution='hi', theta_rot=0, phi_rot=0):
         """ Global sky model (GSM) class for generating sky models.
 
         Upon initialization, the map PCA data are loaded into memory and interpolation
@@ -71,9 +89,17 @@ class GlobalSkyModel2016(object):
         # Map data to load
         labels = ['Synchrotron', 'CMB', 'HI', 'Dust1', 'Dust2', 'Free-Free']
         self.n_comp = len(labels)
-        self.map_ni_hr = np.array([self.h5['highres_%s_map'%lb][:] for lb in labels])
-        self.map_ni_lr = self.h5['lowres_maps']
+
+        if resolution=='hi':
+            self.map_ni = np.array([self.h5['highres_%s_map'%lb][:] for lb in labels])
+        else:
+            self.map_ni = np.array(self.h5['lowres_maps'])
+
         self.spec_nf = self.h5['spectra'][:]
+
+        if theta_rot or phi_rot:
+            for i,map in enumerate(self.map_ni):
+                self.map_ni[i] = rotate_map(map, theta_rot, phi_rot, nest=True)
 
         self.generated_map_data = None
         self.generated_map_freqs = None
@@ -93,7 +119,7 @@ class GlobalSkyModel2016(object):
             is in galactic coordinates, ring format.
 
         """
-        
+
         # convert frequency values into Hz
         freqs = np.array(freqs) * units.Unit(self.freq_unit)
         freqs_ghz = freqs.to('GHz').value
@@ -107,10 +133,11 @@ class GlobalSkyModel2016(object):
         except AssertionError:
             raise RuntimeError("Frequency values lie outside 10 MHz < f < 5 THz: %s")
 
-        if self.resolution == 'hi':
-            map_ni = self.map_ni_hr
-        else:
-            map_ni = self.map_ni_lr
+        map_ni = self.map_ni
+        # if self.resolution == 'hi':
+        #     map_ni = self.map_ni_hr
+        # else:
+        #     map_ni = self.map_ni_lr
 
         spec_nf = self.spec_nf
         nfreq = spec_nf.shape[1]
