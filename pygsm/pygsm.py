@@ -277,7 +277,7 @@ class GSMObserver(ephem.Observer):
         # Apply rotation
         hrot = hp.Rotator(rot=[ra_deg, dec_deg], coord=['G', 'C'], inv=True)
         g0, g1 = hrot(self._theta, self._phi)
-        pix0 = hp.ang2pix(512, g0, g1)
+        pix0 = hp.ang2pix(self._n_side, g0, g1)
         sky_rotated = sky[pix0]
 
         # Generate a mask for below horizon
