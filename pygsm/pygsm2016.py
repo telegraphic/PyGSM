@@ -5,7 +5,6 @@ from scipy.interpolate import interp1d, pchip
 import h5py
 from astropy import units
 import healpy as hp
-import pylab as plt
 import ephem
 from datetime import datetime
 
@@ -213,6 +212,8 @@ class GlobalSkyModel2016(object):
 
         hp.mollview(gmap, coord='G',
                     title='Global Sky Model %s %s' % (str(freq), self.unit))
+        if not plt:
+            import pylab as plt
         plt.show()
 
     def write_fits(self, filename):
@@ -307,6 +308,8 @@ class GSMObserver2016(ephem.Observer):
         hp.orthview(sky, half_sky=True, **kwargs)
 
         if show:
+            if not plt:
+                import pylab as plt
             plt.show()
 
         return sky
@@ -336,6 +339,8 @@ class GSMObserver2016(ephem.Observer):
         hp.mollview(sky, coord='G', **kwargs)
 
         if show:
+            if not plt:
+                import pylab as plt
             plt.show()
 
         return sky
