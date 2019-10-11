@@ -26,6 +26,13 @@ The first thing to do will be to make sure you've got the dependencies:
 Then clone the directory
 
         git clone https://github.com/telegraphic/PyGSM
+        
+You need to have git-lfs installed to download the data files. If you don't, you can get these via wget:
+
+      wget -O gsm2016_components.h5 https://zenodo.org/record/3479985/files/gsm2016_components.h5?download=1
+      wget -O gsm_components.h5 https://zenodo.org/record/3479985/files/gsm_components.h5?download=1
+
+Which are hosted on [Zenodo](https://zenodo.org/record/3479985#.XaASx79S-AY).
 
 You may then install this by running `python setup.py install`.
 
