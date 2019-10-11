@@ -110,6 +110,12 @@ An Improved Model of Diffuse Galactic Radio Emission from 10 MHz to 5 THz
 
 which is available on the [arXiv](http://arxiv.org/abs/1605.04920).
 
+PyGSM has an [ascl.net entry](https://ascl.net/1603.013):
+
+```
+D. C. Price, 2016, 2.0.0, Astrophysics Source Code Library, 1603.013
+```
+
 License
 -------
 
