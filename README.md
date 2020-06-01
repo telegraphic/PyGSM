@@ -1,3 +1,5 @@
+**This archive is deprecated; please use [PyGDSM](https://github.com/telegraphic/pygdsm)**
+
 PyGSM
 =====
 
